@@ -1,5 +1,5 @@
 {
 	"env": {		
-		"MONGO_URL" : "mongodb://admin:95ghyzko@g13pagescraper-shard-00-00.zmyzb.mongodb.net:27017,g13pagescraper-shard-00-01.zmyzb.mongodb.net:27017,g13pagescraper-shard-00-02.zmyzb.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-ojnd64-shard-0&authSource=admin&retryWrites=true&w=majority"
+		"MONGO_URL" : "mongodb+srv://admin:95ghyzko@g13pagescraper.zmyzb.mongodb.net/G13PageScraper?retryWrites=true"
 	}
 }
