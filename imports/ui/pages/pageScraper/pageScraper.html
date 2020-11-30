@@ -1,0 +1,177 @@
+<template name="pageScraper">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Page Scraper</h1>        
+    </div>   
+    
+    <hr>
+    <div class="row">
+      <div class="col-sm">
+        <h5>Total Salvos:</h5>
+        <h2 class="text-success font-weight-bold">{{total}}</h2>
+      </div>      
+      <div class="col-sm">
+        <p>Proximo Contrato:</p>
+        <input class="js-next" type="number" min=0 value="{{next}}">
+      </div> 
+      <div class="col-sm">
+        <p>Contratos a extrair</p>
+        <input class="js-amount" type="number" min=0 value="{{amount}}">
+      </div> 
+      <div class="col-sm">        
+        <button class="js-scrape btn btn-primary" type="button">
+          <span class="st-only">Fetch new contracts</span>          
+          <span class="js-spin spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+        </button>                  
+      </div>
+    </div>
+    <hr>
+
+    <br><br>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4>Contratos:</h4>        
+      </div>            
+    </div>
+
+    <div class="row">
+      <table id="mytable" class="table table-hover table-bordered">
+        <thead>
+            <tr>              
+                <th>Contrato</th>
+                <th>Data de Publicacao</th>
+                <th>Objeto do Contrato</th>
+                <th>Criação</th>
+                <th>Atualização</th>   
+                <th>Acoes</th>             
+            </tr>
+        </thead>
+      </table>
+    </div>
+
+
+    <!-- Modal -->  
+    <div id="viewContract" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document" style="max-width: 1200px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel">Visualizacao de Contrato <span class="font-weight-bold">#{{view.ctrNum}}</span></h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">            
+            <h5>Detalhe do Contrato </h5>
+            <ul>
+              <li class="row">
+                <div class="col-6">Data de publicação no BASE</div>
+                <div class="col-6">{{{view.publiDate}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Tipo(s) de contrato</div>
+                <div class="col-6">{{{view.ctrType}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Tipo de procedimento</div>
+                <div class="col-6">{{{view.procType}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Descrição</div>
+                <div class="col-6">{{{view.desc}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Fundamentação</div>
+                <div class="col-6">{{{view.fund}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Fundamentação da necessidade de recurso ao ajuste direto (se aplicável)</div>
+                <div class="col-6">{{{view.fundap}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Entidade adjudicante - Nome, NIF</div>
+                <div class="col-6">{{{view.entAdje}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Entidade adjudicatária - Nome, NIF</div>
+                <div class="col-6">{{{view.entAdja}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Objeto do Contrato</div>
+                <div class="col-6">{{{view.objCtr}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Procedimento Centralizado</div>
+                <div class="col-6">{{{view.procCent}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">CPV</div>
+                <div class="col-6">{{{view.cpv}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Data de celebração do contrato</div>
+                <div class="col-6">{{{view.dataCCtr}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Preço contratual</div>
+                <div class="col-6">{{{view.precCtr}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Prazo de execução</div>
+                <div class="col-6">{{{view.prazExe}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Local de execução - País, Distrito, Concelho</div>
+                <div class="col-6">{{{view.locExe}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Concorrentes</div>
+                <div class="col-6">{{{view.conc}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Anúncio</div>
+                <div class="col-6">{{{view.anun}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Incrementos superiores a 15%</div>
+                <div class="col-6">{{{view.increm}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Documentos</div>
+                <div class="col-6">{{{view.docs}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Observações</div>
+                <div class="col-6">{{{view.obs}}}</div>
+              </li>
+            </ul>
+
+            <br/>
+            <h5>Execução do Contrato</h5>
+            <ul>
+              <li class="row">
+                <div class="col-6">Data de fecho do contrato</div>
+                <div class="col-6">{{{view.dataFecho}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Preço total efetivo</div>
+                <div class="col-6">{{{view.precTotal}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Causas das alterações ao prazo</div>
+                <div class="col-6">{{{view.altPrazo}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Causas das alterações ao preço</div>
+                <div class="col-6">{{{view.altPreco}}}</div>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+</template>

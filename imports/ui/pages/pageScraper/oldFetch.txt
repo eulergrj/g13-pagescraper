@@ -1,0 +1,44 @@
+const baseUrl = `http://www.base.gov.pt/Base/pt/ResultadosPesquisa?range=${(page-1) * size}-${page * size}&type=contratos&query=texto%3D%26tipo%3D0%26tipocontrato%3D0%26cpv%3D%26numeroanuncio%3D%26aqinfo%3D%26adjudicante%3D%26adjudicataria%3D%26desdeprecocontrato_false%3D%26desdeprecocontrato%3D%26ateprecocontrato_false%3D%26ateprecocontrato%3D%26desdedatacontrato%3D%26atedatacontrato%3D%26desdedatapublicacao%3D%26atedatapublicacao%3D%26desdeprazoexecucao%3D%26ateprazoexecucao%3D%26desdedatafecho%3D%26atedatafecho%3D%26desdeprecoefectivo_false%3D%26desdeprecoefectivo%3D%26ateprecoefectivo_false%3D%26ateprecoefectivo%3D%26pais%3D0%26distrito%3D0%26concelho%3D0&ordering=sort%28-publicationDate%29`;
+$.get("https://cors-anywhere.herokuapp.com/" + baseUrl, (data, status) => {
+    
+        if(status == "success"){
+            const contracts = {};
+            let parsed = new DOMParser().parseFromString(data, "text/html");
+            let trs = $("#resultadosContractos tbody tr", parsed);
+
+            
+            trs.each((key, ctr) => {
+                
+                //removes TRs that aren't part of contracts
+                if($(ctr).children().length >= 6){
+                    let link = $('.plusSign a', ctr)[0].href;                    
+                    let id = link.replace("http://www.base.gov.pt/Base/pt/Pesquisa/Contrato?a=", "");
+                    
+                    let tds = $("td", ctr);
+                    let ct = {
+                        "id"    : id,
+                        "obj"   : tds[0].innerHTML,
+                        "preco" : tds[1].innerHTML,
+                        "pub"   : tds[2].innerHTML,
+                        "adje"  : tds[3].innerHTML,
+                        "adjo"  : tds[1].innerHTML
+                    } 
+                    
+                    
+                    
+
+                }                
+                
+            });
+
+
+            // instance.state.set("data", data);
+        }        
+        
+    })    
+    .fail((err) => {
+        alert("Error: " + err.statusText);
+    })
+    .always(() => {
+        $(".js-spin").hide();
+    });
