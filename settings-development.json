@@ -1,5 +1,0 @@
-{
-	"env": {		
-		"MONGO_URL" : "mongodb+srv://admin:95ghyzko@g13pagescraper.zmyzb.mongodb.net/G13PageScraper?retryWrites=true"
-	}
-}
