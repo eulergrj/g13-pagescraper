@@ -52,6 +52,6 @@ Bootstrap Documentation: https://getbootstrap.com/docs/4.5/getting-started/intro
 
 # Authors:
 
-Euler Ribeiro  - 2019103280
-Jesus Faria    - 2019
-Ruben Oliveira - 2019
+* Euler Ribeiro @ 2019103280 
+* Jesus Faria @2019101052 
+* Rúben Oliveira @2019100463 
