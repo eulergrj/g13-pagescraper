@@ -15,7 +15,8 @@
     "meteor-node-stubs": "^1.0.0",
     "moment": "^2.29.1",
     "pako": "^1.0.11",
-    "simpl-schema": "^1.7.3"
+    "simpl-schema": "^1.7.3",
+    "xml2js": "^0.4.23"
   },
   "meteor": {
     "mainModule": {

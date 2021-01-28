@@ -19,3 +19,11 @@ FlowRouter.route('/pageScraper', {
 		BlazeLayout.render("default", {content: "pageScraper"});
   }
 });
+
+FlowRouter.route('/importer', {
+  name: 'importer',
+  action(params, queryParams) {
+    import '/imports/ui/pages/importer/importer';
+		BlazeLayout.render("default", {content: "importer"});
+  }
+});

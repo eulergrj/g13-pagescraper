@@ -30,3 +30,20 @@ export const removeContract = new ValidatedMethod({
 		Contracts.remove(_id);
 	},
 });
+
+export const getTotal = new ValidatedMethod({
+	name: 'contracts.getTotal',
+	validate: new SimpleSchema({}).validator(),
+	run() {
+		return Contracts.find().count();
+	},
+});
+
+
+export const getViagens = new ValidatedMethod({
+	name: 'contracts.getViagens',
+	validate: new SimpleSchema({}).validator(),
+	run() {
+		return Contracts.find({"objCtr" : {$regex : ".*viage.*"}}).fetch();
+	},
+});

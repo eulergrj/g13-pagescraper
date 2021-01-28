@@ -5,4 +5,3 @@ import Contracts from '/imports/api/contracts/contracts';
 Meteor.publish('contracts.listAll', function() {
 	return Contracts.find();
 });
-

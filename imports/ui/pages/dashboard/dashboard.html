@@ -1,6 +1,54 @@
 <template name="dashboard">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>        
+      <h1 class="h3 mb-0 text-gray-800">Análise de contratos de Viagens</h1>                  
     </div>            
+
+    <br>
+
+    <h4>Total de Contratos Analizados: <b>{{total}}</b></h4>
+    <br>
+    
+    <h4>Total de Contractos de Viagens: <b>{{totalViagens}}</b></h4>
+    <br><br>
+
+    <h4>Media de preco de contrato de viagem: <b>€ {{mediaPreco}}</b></h4>
+    <h6>Margem considerada: <b>50% para mais e para menos</b></h6>
+    <br>
+    <h5>MIN: <b>€ {{ minMax v=0 }}</b></h5>
+    <h5>MAX: <b>€ {{ minMax v=1 }}</b></h5>
+    
+    <!-- <br><br>
+    <h2>Verdadeiro Positivo: <span class="text-success">{{TP}}</span></h2>
+    <h2>Verdadeiro Negatives: <span class="text-danger">{{TN}}</span></h2> -->
+
+
+    <br><br>
+    <h2>Matriz Confusão</h2>
+
+    <table class="table table-bordered" style="max-width: 500px;">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Classe Positiva</th>
+          <th>Classe Negativa</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Classe Positiva</td>          
+          <td class="text-center">{{TP}}</td>
+          <td class="text-center">0</td>
+        </tr>
+        <tr>
+          <td>Classe Negativa</td>          
+          <td class="text-center">0</td>
+          <td class="text-center">{{TN}}</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    
+    
 </template>
