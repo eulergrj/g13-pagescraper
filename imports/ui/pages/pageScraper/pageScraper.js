@@ -110,7 +110,7 @@ Template.pageScraper.events({
     "click .js-view"(e, instance){
         e.preventDefault();
         let id = $(e.currentTarget).attr("data-id");        
-        let ctr = Contracts.findOne({_id: id});
+        let ctr = Contracts.findOne({_id: id});        
         instance.state.set("view", ctr);        
         $('#viewContract').modal('show');
     }

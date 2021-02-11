@@ -1,53 +1,208 @@
 <template name="dashboard">
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Análise de contratos de Viagens</h1>                  
-    </div>            
-
-    <br>
-
-    <h4>Total de Contratos Analizados: <b>{{total}}</b></h4>
-    <br>
+    <div class="row">
+      <div class="col-5">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">Análise de contratos de Viagens</h1>                  
+        </div>            
     
-    <h4>Total de Contractos de Viagens: <b>{{totalViagens}}</b></h4>
-    <br><br>
-
-    <h4>Media de preco de contrato de viagem: <b>€ {{mediaPreco}}</b></h4>
-    <h6>Margem considerada: <b>50% para mais e para menos</b></h6>
-    <br>
-    <h5>MIN: <b>€ {{ minMax v=0 }}</b></h5>
-    <h5>MAX: <b>€ {{ minMax v=1 }}</b></h5>
+        <br>
     
-    <!-- <br><br>
-    <h2>Verdadeiro Positivo: <span class="text-success">{{TP}}</span></h2>
-    <h2>Verdadeiro Negatives: <span class="text-danger">{{TN}}</span></h2> -->
+        <h4>Total de Contratos Analizados: <b>{{total}}</b></h4>
+        <br>
+        
+        <h4>Total de Contractos de Viagens: <b>{{totalViagens}}</b></h4>
+        <br><br>
+    
+        <h4>Media de preco de contrato de viagem: <b>€ {{mediaPreco}}</b></h4>
+        <h6>Margem considerada: <b>50% para mais e para menos</b></h6>
+        <br>
+        <h5>MIN: <b>€ {{ minMax v=0 }}</b></h5>
+        <h5>MAX: <b>€ {{ minMax v=1 }}</b></h5>
+        
+        <br><br>    
+        <h5>Falsos Positivos: <input type="number" id="FP" min=0 style="width: 50px;" value="{{FP}}"></h5>
+        <h5>Falsos Negativos: <input type="number" id="FN" min=0 style="width: 50px;" value="{{FN}}"></h5>
+    
+        <br><br>
+
+        <div class="bg-dark text-white" style="padding: 30px;">          
+          <h2>Matriz Confusão</h2>
+      
+          <table class="table table-bordered" style="max-width: 500px;">
+            <thead class="text-white">
+              <tr>
+                <th></th>
+                <th>Classe Positiva</th>
+                <th>Classe Negativa</th>
+              </tr>
+            </thead>
+      
+            <tbody class="text-white">
+              <tr>
+                <td>Classe Positiva</td>          
+                <td class="text-center">{{TP}}</td>
+                <td class="text-center text-warning">{{FP}}</td>
+              </tr>
+              <tr>
+                <td>Classe Negativa</td>          
+                <td class="text-center text-warning">{{FN}}</td>
+                <td class="text-center">{{TN}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <div class="col-7">      
+        <div class="row">
+          <div class="col-sm-12">
+            <h4>Contratos de Viagens:</h4>        
+          </div>            
+        </div>
+    
+        <div class="row">
+          <table id="mytable" class="table table-hover table-bordered">
+            <thead>
+                <tr>              
+                    <th>Contrato</th>                    
+                    <th>Objeto do Contrato</th>                                        
+                    <th style="width: 30px;">Acoes</th>             
+                </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
 
 
-    <br><br>
-    <h2>Matriz Confusão</h2>
 
-    <table class="table table-bordered" style="max-width: 500px;">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Classe Positiva</th>
-          <th>Classe Negativa</th>
-        </tr>
-      </thead>
 
-      <tbody>
-        <tr>
-          <td>Classe Positiva</td>          
-          <td class="text-center">{{TP}}</td>
-          <td class="text-center">0</td>
-        </tr>
-        <tr>
-          <td>Classe Negativa</td>          
-          <td class="text-center">0</td>
-          <td class="text-center">{{TN}}</td>
-        </tr>
-      </tbody>
-    </table>
+
+
+    <!-- Modal -->  
+    <div id="viewContract" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document" style="max-width: 1200px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel">Visualizacao de Contrato <span class="font-weight-bold">#{{view.ctrNum}}</span></h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">            
+            <h5>Detalhe do Contrato </h5>
+            <ul>
+              <li class="row">
+                <div class="col-6">Data de publicação no BASE</div>
+                <div class="col-6">{{{view.publiDate}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Tipo(s) de contrato</div>
+                <div class="col-6">{{{view.ctrType}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Tipo de procedimento</div>
+                <div class="col-6">{{{view.procType}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Descrição</div>
+                <div class="col-6">{{{view.desc}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Fundamentação</div>
+                <div class="col-6">{{{view.fund}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Fundamentação da necessidade de recurso ao ajuste direto (se aplicável)</div>
+                <div class="col-6">{{{view.fundap}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Entidade adjudicante - Nome, NIF</div>
+                <div class="col-6">{{{view.entAdje}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Entidade adjudicatária - Nome, NIF</div>
+                <div class="col-6">{{{view.entAdja}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Objeto do Contrato</div>
+                <div class="col-6">{{{view.objCtr}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Procedimento Centralizado</div>
+                <div class="col-6">{{{view.procCent}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">CPV</div>
+                <div class="col-6">{{{view.cpv}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Data de celebração do contrato</div>
+                <div class="col-6">{{{view.dataCCtr}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Preço contratual</div>
+                <div class="col-6">{{{view.precCtr}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Prazo de execução</div>
+                <div class="col-6">{{{view.prazExe}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Local de execução - País, Distrito, Concelho</div>
+                <div class="col-6">{{{view.locExe}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Concorrentes</div>
+                <div class="col-6">{{{view.conc}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Anúncio</div>
+                <div class="col-6">{{{view.anun}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Incrementos superiores a 15%</div>
+                <div class="col-6">{{{view.increm}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Documentos</div>
+                <div class="col-6">{{{view.docs}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Observações</div>
+                <div class="col-6">{{{view.obs}}}</div>
+              </li>
+            </ul>
+
+            <br/>
+            <h5>Execução do Contrato</h5>
+            <ul>
+              <li class="row">
+                <div class="col-6">Data de fecho do contrato</div>
+                <div class="col-6">{{{view.dataFecho}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Preço total efetivo</div>
+                <div class="col-6">{{{view.precTotal}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Causas das alterações ao prazo</div>
+                <div class="col-6">{{{view.altPrazo}}}</div>
+              </li>
+              <li class="row">
+                <div class="col-6">Causas das alterações ao preço</div>
+                <div class="col-6">{{{view.altPreco}}}</div>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>            
+          </div>
+        </div>
+      </div>
+    </div>
+
     
     
     
